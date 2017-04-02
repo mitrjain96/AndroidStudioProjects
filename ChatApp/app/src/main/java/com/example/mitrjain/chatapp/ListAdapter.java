@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class ListAdapter extends ArrayAdapter<String> {
     Color c = new Color();
-    int x=0;
+
     public ListAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
     }
@@ -44,18 +44,22 @@ public class ListAdapter extends ArrayAdapter<String> {
         if (p != null) {
             TextView tv = (TextView) v.findViewById(R.id.textView);
 
-            tv.setText(p);
+
             if(p.substring(0,4).equals("#REC"))
             {
                 tv.setGravity(Gravity.RIGHT);
                 tv.setBackgroundColor(Color.parseColor("#E3F2FD"));
+                p=p.substring(4);
+
             }
             else
             {
                 tv.setGravity(Gravity.LEFT);
                 tv.setBackgroundColor(Color.parseColor("#64FFDA"));
+                p=p.substring(12);
             }
-            x++;
+
+            tv.setText(p);
 
         }
 

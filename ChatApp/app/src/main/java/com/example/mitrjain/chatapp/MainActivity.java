@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     Button bt;
     SQLiteDatabase db;
     static TextView textView;
+    static String recTok="Nan";
     Random rn;
     Thread t;
     public static ListView listView;
@@ -74,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
 
             }
+
             catch(Exception e){
                 Log.d("Networking",e.toString());}
             try {
@@ -120,9 +122,10 @@ public class MainActivity extends AppCompatActivity {
         {
             rn = new Random();
             String new_token=rn.nextInt(10)+rn.nextInt(10)+rn.nextInt(10)+"FG";
+            recTok=new_token;
             new Authenticate().execute(new_token);
             try {
-                db.execSQL("INSERT INTO REGIS_TOKEN VALUES("+new_token+");");
+                db.execSQL("INSERT INTO REGIS_TOKEN VALUES('"+new_token+"');");
             }catch(Exception e){Log.d("Networking","Unable to enter in local Database");}
         }
         else
@@ -135,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         listView = (ListView)findViewById(R.id.LV1);
-        content.add("FILLER");
+        content.add("#SENDER-14FGFILLER");
         listAdapter = new ListAdapter(this,R.layout.smessage,content);
         listView.setAdapter(listAdapter);
         ed=(EditText)findViewById(R.id.ed1);
@@ -144,17 +147,17 @@ public class MainActivity extends AppCompatActivity {
     }
     public void onStart()
     {
+
         super.onStart();
         Log.d("Networking","In On Start");
-        try {
-            // t = new CommunicationThreadTask().execute(Listadapter).get();
-        }catch(Exception e){Log.d("Networking",e.toString());}
-
+        new StartListener().execute(listAdapter);
     }
+
 
     public void startSocket(View view)
     {
-        CharSequence str = "#SEN"+ed.getText();
+
+        CharSequence str = "#SENDER-"+recTok+ed.getText();
         new ClientSocket().execute(str.toString());
         ed.setText("");
 
