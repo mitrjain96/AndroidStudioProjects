@@ -2,14 +2,7 @@ package com.example.mitrjain.chatapp;
 
 import android.os.AsyncTask;
 import android.util.Log;
-import android.util.StringBuilderPrinter;
-
 import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -50,9 +43,7 @@ public class sendMessage extends AsyncTask<String,Void,Long> {
             conn.setRequestProperty("Authorization", "key=AAAA_6CN7HU:APA91bEyjpAjftbbmFEWyx3rx4wcBowoHJLXLDKpTo4BIxWIt2NG8dN7ofpfV5tdkecDwZRkg-bLJR39ceWKZaEzuRQYeTNwUahY-pKjy_Vllu5AII6paWUsmgEtbTXdw0CnwO4bkXc2");
             conn.setDoOutput(true);
 
-            //TODO:
             JSONObject json = new JSONObject();
-
             json.put("to", params[1]);
             JSONObject data = new JSONObject();
             data.put("body",params[0]);

@@ -1,7 +1,6 @@
 package com.example.mitrjain.chatapp;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -16,11 +15,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.Random;
-
-/**
- * Created by Mit R Jain on 02-04-2017.
- */
-
 public class firstTimeRegister extends AppCompatActivity {
     Cursor resultSet;
     SQLiteDatabase db;
@@ -33,6 +27,7 @@ public class firstTimeRegister extends AppCompatActivity {
     static void setRefreshedToken(String value)
     {
         refreshedToken=value;
+
     }
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -57,19 +52,19 @@ public class firstTimeRegister extends AppCompatActivity {
         }
         else
         {
-
-            resultSet=db.rawQuery("Select * from REGIS_TOKEN",null);
-            resultSet.moveToFirst();
-            String token=resultSet.getString(0);
-            Log.d("Networking frm.java","Previous token used - "+token);
+//            resultSet=db.rawQuery("Select * from REGIS_TOKEN",null);
+//            resultSet.moveToFirst();
+//            String token=resultSet.getString(0);
+//            Log.d("Networking frm.java","Previous token used - "+token);
             resultSet=db.rawQuery("SELECT * from USER_DETAILS",null);
             resultSet.moveToFirst();
             String name=resultSet.getString(0);
             String contact=resultSet.getString(1);
             String email=resultSet.getString(2);
             String key=resultSet.getString(3);
+            refreshedToken=FirebaseInstanceId.getInstance().getToken();
             userDetails user = new userDetails(name,contact,key,email,refreshedToken);
-            mDatabase.child(token).setValue(user);
+            mDatabase.child(contact).setValue(user);
             startActivity(i);
         }
 
@@ -114,13 +109,13 @@ public class firstTimeRegister extends AppCompatActivity {
             return;
         }
         key=test;
-        db.execSQL("CREATE TABLE IF NOT EXISTS REGIS_TOKEN(Token VARCHAR);");
-        db.execSQL("CREATE TABLE IF NOT EXISTS USER_DETAILS(Name VARCHAR, Token VARCHAR, Email_id VARCHAR, Key VARCHAR);");
-       // new Authenticate().execute(token);
+        db.execSQL("CREATE TABLE IF NOT EXISTS USER_DETAILS(Name VARCHAR, Contact VARCHAR, Email_id VARCHAR, Key VARCHAR, deviceToken VARCHAR);");
+        db.execSQL("CREATE TABLE IF NOT EXISTS OTHER_USERS(Contact VARCHAR, deviceToken VARCHAR)");
         try {
             db.execSQL("INSERT INTO REGIS_TOKEN VALUES('"+token+"');");
             Log.d("networking frm.java",name.toString()+" "+email.toString()+" "+token.toString());
-            db.execSQL("INSERT INTO USER_DETAILS VALUES('"+name+"','"+token+"','"+email+"','"+key+"');");
+            refreshedToken=FirebaseInstanceId.getInstance().getToken();
+            db.execSQL("INSERT INTO USER_DETAILS VALUES('"+name+"','"+token+"','"+email+"','"+key+"','"+refreshedToken+"');");
         }catch(Exception e){Log.d("Networking frm.java","Unable to enter in local Database");}
         userDetails user = new userDetails(name,token,key,email,refreshedToken);
         mDatabase.child(token).setValue(user);
