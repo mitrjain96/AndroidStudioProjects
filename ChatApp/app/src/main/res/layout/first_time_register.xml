@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/WelcomeTextLayout"
+        android:layout_weight="1">
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="Welcome to ChatApp"
+        android:gravity="center"
+        android:textSize="35dp"
+        android:padding="20dp"/>
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="Join the ChatApp community"
+        android:padding="10dp"
+        android:textSize="20dp"
+        android:gravity="center"/>
+</LinearLayout>
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="2">
+    <EditText
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:hint="Full name"
+        android:padding="10dp"
+        android:textSize="20dp"
+        android:textColor="#000000"
+        android:backgroundTint="#000000"
+        android:id="@+id/fullName"/>
+    <EditText
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:hint="Contact number"
+        android:padding="10dp"
+        android:textSize="20dp"
+        android:backgroundTint="#000000"
+        android:id="@+id/regisToken"/>
+
+    <EditText
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:hint="Email id"
+        android:padding="10dp"
+        android:textSize="20dp"
+        android:backgroundTint="#000000"
+        android:id="@+id/emailid"/>
+
+    <EditText
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:hint="New Password"
+        android:padding="10dp"
+        android:textSize="20dp"
+        android:backgroundTint="#000000"
+        android:id="@+id/passwd"/>
+
+    <EditText
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:hint="Retype Password"
+        android:padding="10dp"
+        android:textSize="20dp"
+        android:backgroundTint="#000000"
+        android:id="@+id/repasswd"/>
+    </LinearLayout>
+
+    <Button
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="Join"
+        android:textColor="#fff"
+        android:layout_gravity="center"
+        android:layout_margin="15dp"
+        android:elevation="5dp"
+        android:textSize="20dp"
+        android:background="@color/colorPrimary"
+        android:onClick="validateForm"
+        />
+
+</LinearLayout>

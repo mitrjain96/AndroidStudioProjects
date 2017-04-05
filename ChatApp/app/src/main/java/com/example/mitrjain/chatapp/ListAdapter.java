@@ -56,7 +56,7 @@ public class ListAdapter extends ArrayAdapter<String> {
             {
                 tv.setGravity(Gravity.LEFT);
                 tv.setBackgroundColor(Color.parseColor("#64FFDA"));
-                p=p.substring(12);
+                p=p.substring(4);
             }
 
             tv.setText(p);

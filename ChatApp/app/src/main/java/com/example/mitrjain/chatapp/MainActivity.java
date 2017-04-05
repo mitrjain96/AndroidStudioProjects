@@ -30,6 +30,7 @@ import android.widget.Toast;
 import android.database.sqlite.*;
 
 import com.example.mitrjain.chatapp.R;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONObject;
 
@@ -50,115 +51,62 @@ public class MainActivity extends AppCompatActivity {
     public static ListAdapter listAdapter;
     ArrayList<String> content= new ArrayList<String>();
     static int z=0;
-    class ClientSocket extends AsyncTask<String,Void,String> {
-        Socket s=null;
-        SocketAddress sockaddr;
-        Integer size;
-        protected void onPreExecute()
-        {
-            InetAddress addr;
-            try{addr = InetAddress.getByName("192.168.137.1");
-                int port = 8888;
-                sockaddr = new InetSocketAddress(addr, port);
-                Log.d("Networking",addr.toString()+"--"+sockaddr.toString());
-            }catch(Exception e){}
+    static String newMesg="";
 
-
-        }
+    static class updateListView extends AsyncTask<String,Void,String>
+    {
         @Override
         protected String doInBackground(String... params)
         {
-            try{
 
-                s=new Socket();
-                s.connect(sockaddr);
-
-
-            }
-
-            catch(Exception e){
-                Log.d("Networking",e.toString());}
-            try {
-
-                if(s!=null) {
-                    size=params[0].length();
-                    DataOutputStream wr = new DataOutputStream(s.getOutputStream());
-                    BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream()));
-                    wr.writeBytes(size.toString());
-                    wr.writeBytes("!");
-                    wr.write(params[0].getBytes());
-                    wr.flush();
-                    s.close();
-                }
-                else
-                {
-                    Log.d("Networking","Empty Socket");
-                }
-            }
-            catch(Exception e){Log.d("Networking",e.toString());}
-
+            Log.d("Networking Update",params[0]);
             return params[0];
         }
-        protected void onPostExecute(String s) {
-            listAdapter.add(s);
+        protected void onPostExecute(String message)
+        {
+            listAdapter.add("#REC"+message);
             listAdapter.notifyDataSetChanged();
-            Log.d("Networking",(new Integer(content.size())).toString());
-
-
-
-
-
         }
 
+
     }
+    static void newMessageReceived(String val)
+    {
+        new updateListView().execute(val);
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        db = openOrCreateDatabase("ChatApp",MODE_PRIVATE,null);
-        db.execSQL("CREATE TABLE IF NOT EXISTS REGIS_TOKEN(Token VARCHAR);");
-        Cursor resultSet = db.rawQuery("Select * from REGIS_TOKEN",null);
-
-        if(!(resultSet.moveToFirst()) || resultSet.getCount()==0)
-        {
-            rn = new Random();
-            String new_token=rn.nextInt(10)+rn.nextInt(10)+rn.nextInt(10)+"FG";
-            recTok=new_token;
-            new Authenticate().execute(new_token);
-            try {
-                db.execSQL("INSERT INTO REGIS_TOKEN VALUES('"+new_token+"');");
-            }catch(Exception e){Log.d("Networking","Unable to enter in local Database");}
-        }
-        else
-        {
-            resultSet.moveToFirst();
-            String token=resultSet.getString(0);
-        }
-
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         listView = (ListView)findViewById(R.id.LV1);
-        content.add("#SENDER-14FGFILLER");
         listAdapter = new ListAdapter(this,R.layout.smessage,content);
         listView.setAdapter(listAdapter);
         ed=(EditText)findViewById(R.id.ed1);
         bt=(Button)findViewById(R.id.bt1);
-
+        String token=getIntent().getStringExtra("Registraion_token");
     }
     public void onStart()
     {
 
         super.onStart();
         Log.d("Networking","In On Start");
-        new StartListener().execute(listAdapter);
+        Log.d("Networking Token", FirebaseInstanceId.getInstance().getToken());
     }
 
 
     public void startSocket(View view)
     {
 
-        CharSequence str = "#SENDER-"+recTok+ed.getText();
-        new ClientSocket().execute(str.toString());
+        CharSequence str = ed.getText();
+        String message = str.toString();
+        Log.d("Networking",message);
+        listAdapter.add("#SEN"+message);
+        String deviceToken = FirebaseInstanceId.getInstance().getToken();
+        new sendMessage().execute(message,deviceToken);
         ed.setText("");
 
 
