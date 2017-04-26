@@ -17,7 +17,6 @@
         android:gravity="center"
         android:textSize="35dp"
         android:padding="20dp"/>
-
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
@@ -26,16 +25,12 @@
         android:textSize="20dp"
         android:gravity="center"/>
 </LinearLayout>
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="2">
     <LinearLayout
         android:gravity="center_vertical"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:orientation="vertical"
-        >
+        android:layout_weight="2">
     <EditText
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
@@ -44,8 +39,7 @@
         android:textSize="20dp"
         android:textColor="#000000"
         android:backgroundTint="#000000"
-        android:id="@+id/fullName"
-        />
+        android:id="@+id/fullName"/>
     <EditText
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
@@ -53,30 +47,25 @@
         android:padding="10dp"
         android:textSize="20dp"
         android:backgroundTint="#000000"
-        android:id="@+id/regisToken"
+        android:id="@+id/regisToken"/>
 
-        />
+    <EditText
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:hint="Email id"
+        android:padding="10dp"
+        android:textSize="20dp"
+        android:backgroundTint="#000000"
+        android:id="@+id/emailid"/>
 
-        <EditText
-            android:id="@+id/emailid"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#000000"
-            android:hint="Email id"
-            android:padding="10dp"
-            android:inputType="textEmailAddress"
-            android:textSize="20dp" />
-
-        <EditText
+    <EditText
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:hint="New Password"
         android:padding="10dp"
         android:textSize="20dp"
         android:backgroundTint="#000000"
-        android:id="@+id/passwd"
-        android:inputType="textPassword"
-        />
+        android:id="@+id/passwd"/>
 
     <EditText
         android:layout_height="wrap_content"
@@ -85,11 +74,9 @@
         android:padding="10dp"
         android:textSize="20dp"
         android:backgroundTint="#000000"
-        android:id="@+id/repasswd"
-        android:inputType="textPassword"
-        />
+        android:id="@+id/repasswd"/>
     </LinearLayout>
-</ScrollView>
+
     <Button
         android:layout_height="wrap_content"
         android:layout_width="match_parent"

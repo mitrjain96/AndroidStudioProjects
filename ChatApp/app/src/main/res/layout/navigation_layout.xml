@@ -2,27 +2,20 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        android:id="@+id/action_bar">
-
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-    </android.support.design.widget.AppBarLayout>
-
-
-
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/round"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@res:drawable/plus"
+        android:backgroundTint="@color/colorPrimary"
+        android:elevation="10dp"
+        android:clickable="true"
+        android:visibility="gone"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -32,95 +25,86 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:visibility="gone"
-        android:id="@+id/initialTextView"
         />
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:background="@drawable/round"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/plus"
-        app:backgroundTint="@color/colorPrimary"
-        android:elevation="20dp"
-        android:clickable="true"
-        android:onClick="onClickFAB"
-        android:id="@+id/fab"/>
-    <android.support.v4.widget.DrawerLayout
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:id="@+id/action_bar">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.design.widget.NavigationView
+        android:layout_width="200dp"
         android:layout_height="match_parent"
-        android:layout_below="@id/action_bar"
         app:headerLayout="@layout/nav_header"
-        android:id="@+id/navDrawer"
-        android:elevation="20dp"
+        android:layout_below="@id/action_bar"
         >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:id="@+id/parentMessageInterface">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:padding="5dp"
-                android:id="@+id/currentChatName"
-                android:animateLayoutChanges="true"/>
-            <ListView
+            android:orientation="vertical">
+            <include layout="@layout/nav_header"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:divider="@android:color/transparent"
-                android:dividerHeight="10dp"
-                android:layout_margin="2dp"
-                android:transcriptMode="alwaysScroll"
-                android:id="@+id/messageInterface"
-                android:layout_weight="4"
-                android:stackFromBottom="true"/>
-            <LinearLayout
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_margin="5dp">
-
-
-
-                <EditText
-                    android:id="@+id/ed1"
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:hint="Enter Message to send"
-                    android:layout_margin="5dp"
-                    />
-
-                <Button
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:id="@+id/bt1"
-                    android:elevation="5dp"
-                    android:text="Send"
-                    android:onClick="startSocket"
-                    android:layout_margin="2dp"/>
-            </LinearLayout>
-        </LinearLayout>
-        <android.support.design.widget.NavigationView
-            android:layout_width="150dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="start">
+                android:layout_weight="6"/>
             <ListView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:id="@+id/ContactsListView"
-
                 />
+        </LinearLayout>
 
-        </android.support.design.widget.NavigationView>
+
+    </android.support.design.widget.NavigationView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_below="@id/action_bar">
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10dp"
+        android:layout_margin="2dp"
+        android:transcriptMode="alwaysScroll"
+        android:id="@+id/messageInterface"
+        android:layout_weight="4"/>
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="5dp">
 
 
-    </android.support.v4.widget.DrawerLayout>
+
+        <EditText
+            android:id="@+id/ed1"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:hint="Enter Message to send"
+            android:layout_margin="5dp"
+            />
+
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/bt1"
+            android:elevation="5dp"
+            android:text="Send"
+            android:onClick="startSocket"
+            android:layout_margin="2dp"/>
+    </LinearLayout>
+    </LinearLayout>
 
 </RelativeLayout>

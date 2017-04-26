@@ -28,16 +28,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
                 </intent-filter>
         </activity>
-        <activity
-            android:name=".createChat"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            </intent-filter>
-        </activity>
         <service android:name=".registrationTokenService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
