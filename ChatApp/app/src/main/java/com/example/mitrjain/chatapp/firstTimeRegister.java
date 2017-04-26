@@ -14,31 +14,36 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 
-import java.util.Random;
 public class firstTimeRegister extends AppCompatActivity {
     Cursor resultSet;
-    SQLiteDatabase db;
+    static SQLiteDatabase db;
     Intent i;
     EditText fullName,regisTok,emailid,passwd,repasswd;
-    Random rn;
     static String refreshedToken="";
+    static private int firstTimeFlag=0;
+    static private String userContact="";
     private DatabaseReference mDatabase;
+    private DatabaseReference ref;
 
     static void setRefreshedToken(String value)
     {
         refreshedToken=value;
+        if(firstTimeFlag==1)
+        {
+            db.execSQL("UPDATE USER_DETAILS SET deviceToken='"+refreshedToken+"' WHERE Contact ='"+userContact+"'");
+        }
 
     }
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        mDatabase= FirebaseDatabase.getInstance().getReference("users");
+        mDatabase= FirebaseDatabase.getInstance().getReference("Users");
+
         db = openOrCreateDatabase("ChatApp",MODE_PRIVATE,null);
         i = new Intent(getBaseContext(),MainActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-
-        resultSet=db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name = 'REGIS_TOKEN'",null);
+        resultSet=db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name = 'USER_DETAILS'",null);
         if(resultSet.getCount()==0)
         {
             Log.d("Networking fRM.java","Fresh Connection");
@@ -52,10 +57,6 @@ public class firstTimeRegister extends AppCompatActivity {
         }
         else
         {
-//            resultSet=db.rawQuery("Select * from REGIS_TOKEN",null);
-//            resultSet.moveToFirst();
-//            String token=resultSet.getString(0);
-//            Log.d("Networking frm.java","Previous token used - "+token);
             resultSet=db.rawQuery("SELECT * from USER_DETAILS",null);
             resultSet.moveToFirst();
             String name=resultSet.getString(0);
@@ -65,6 +66,8 @@ public class firstTimeRegister extends AppCompatActivity {
             refreshedToken=FirebaseInstanceId.getInstance().getToken();
             userDetails user = new userDetails(name,contact,key,email,refreshedToken);
             mDatabase.child(contact).setValue(user);
+            Log.d("Networking",name);
+            i.putExtra("User_Name",name);
             startActivity(i);
         }
 
@@ -88,14 +91,14 @@ public class firstTimeRegister extends AppCompatActivity {
         }
         name=test;
         test=regisTok.getText().toString();
-        if(test.length()>10 || !test.matches("[\\d]{10}"))
+        if(test.length()!=10 || !test.matches("[\\d]{10}"))
         {
-            Toast.makeText(this, "Contact Number length cannot be more than 10 digits and should contain only digits", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Contact Number length cannot must be equal to 10 digits and should contain only digits", Toast.LENGTH_SHORT).show();
             return;
         }
         token=test;
         test=emailid.getText().toString();
-        if(!test.matches(".*@.*"))
+        if(!test.matches(".*@.*.com"))
         {
             Toast.makeText(this, "Enter valid Email-id", Toast.LENGTH_SHORT).show();
             return;
@@ -110,15 +113,21 @@ public class firstTimeRegister extends AppCompatActivity {
         }
         key=test;
         db.execSQL("CREATE TABLE IF NOT EXISTS USER_DETAILS(Name VARCHAR, Contact VARCHAR, Email_id VARCHAR, Key VARCHAR, deviceToken VARCHAR);");
-        db.execSQL("CREATE TABLE IF NOT EXISTS OTHER_USERS(Contact VARCHAR, deviceToken VARCHAR)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS OTHER_USERS(Name VARCHAR, Contact VARCHAR, deviceToken VARCHAR)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS CurrentChat(Name VARCHAR, Contact Varchar, deviceToken VARCHAR)");
+        firstTimeFlag=1;
+        userContact=token;
         try {
-            db.execSQL("INSERT INTO REGIS_TOKEN VALUES('"+token+"');");
-            Log.d("networking frm.java",name.toString()+" "+email.toString()+" "+token.toString());
             refreshedToken=FirebaseInstanceId.getInstance().getToken();
             db.execSQL("INSERT INTO USER_DETAILS VALUES('"+name+"','"+token+"','"+email+"','"+key+"','"+refreshedToken+"');");
         }catch(Exception e){Log.d("Networking frm.java","Unable to enter in local Database");}
+        while(refreshedToken==null)
+        {
+            refreshedToken=FirebaseInstanceId.getInstance().getToken();
+        }
         userDetails user = new userDetails(name,token,key,email,refreshedToken);
         mDatabase.child(token).setValue(user);
+        i.putExtra("User_Name",name);
         startActivity(i);
     }
 

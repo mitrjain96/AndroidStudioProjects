@@ -45,18 +45,27 @@ public class ListAdapter extends ArrayAdapter<String> {
             TextView tv = (TextView) v.findViewById(R.id.textView);
 
 
-            if(p.substring(0,4).equals("#REC"))
+            if(p.length()==0)
+            {
+
+            }
+            else if(p.substring(0,4).equals("#REC"))
             {
                 tv.setGravity(Gravity.RIGHT);
                 tv.setBackgroundColor(Color.parseColor("#E3F2FD"));
                 p=p.substring(4);
 
             }
-            else
+            else if(p.substring(0,4).equals("#SEN"))
             {
                 tv.setGravity(Gravity.LEFT);
                 tv.setBackgroundColor(Color.parseColor("#64FFDA"));
                 p=p.substring(4);
+            }
+            else
+            {
+                tv.setGravity(Gravity.LEFT);
+
             }
 
             tv.setText(p);
