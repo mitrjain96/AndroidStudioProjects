@@ -1,0 +1,99 @@
+-- Merging decision tree log ---
+manifest
+ADDED from C:\Users\Mit R Jain\AndroidStudioProjects\MyApplication2\app\src\main\AndroidManifest.xml:2:1-24:12
+	package
+		ADDED from C:\Users\Mit R Jain\AndroidStudioProjects\MyApplication2\app\src\main\AndroidManifest.xml:3:5-50
+		INJECTED from C:\Users\Mit R Jain\AndroidStudioProjects\MyApplication2\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Mit R Jain\AndroidStudioProjects\MyApplication2\app\src\main\AndroidManifest.xml
+	android:versionName
+		INJECTED from C:\Users\Mit R Jain\AndroidStudioProjects\MyApplication2\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Mit R Jain\AndroidStudioProjects\MyApplication2\app\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from C:\Users\Mit R Jain\AndroidStudioProjects\MyApplication2\app\src\main\AndroidManifest.xml:2:11-69
+	android:versionCode
+		INJECTED from C:\Users\Mit R Jain\AndroidStudioProjects\MyApplication2\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Mit R Jain\AndroidStudioProjects\MyApplication2\app\src\main\AndroidManifest.xml
+application
+ADDED from C:\Users\Mit R Jain\AndroidStudioProjects\MyApplication2\app\src\main\AndroidManifest.xml:5:5-22:19
+MERGED from [com.android.support:design:25.3.1] C:\Users\Mit R Jain\.android\build-cache\39f790e40297b4a3780088b66608b51bc152e718\output\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:appcompat-v7:25.3.1] C:\Users\Mit R Jain\.android\build-cache\8ff93c9d7e7ab8d6141054be04a6d9c6c3cd3f1e\output\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:animated-vector-drawable:25.3.1] C:\Users\Mit R Jain\.android\build-cache\c1303af4be443c91575657b13c62ba619ddebee8\output\AndroidManifest.xml:26:5-20
+MERGED from [com.android.support:support-vector-drawable:25.3.1] C:\Users\Mit R Jain\.android\build-cache\d0e76b85da5ea01c27f52a57060ff29dc2874fe7\output\AndroidManifest.xml:26:5-20
+MERGED from [com.android.support:transition:25.3.1] C:\Users\Mit R Jain\.android\build-cache\be322ecf0d859eb0e59255ba2e14331fedbb6fbc\output\AndroidManifest.xml:26:5-20
+MERGED from [com.android.support:support-v4:25.3.1] C:\Users\Mit R Jain\.android\build-cache\4bd8bc5c633760234bc9741fccc19a6641db2069\output\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-fragment:25.3.1] C:\Users\Mit R Jain\.android\build-cache\b86c6a6bae13874ff4051a480c8ccf6f3c0d3b6c\output\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-media-compat:25.3.1] C:\Users\Mit R Jain\.android\build-cache\1c12d552678db16a2135f8dbbf2025b0ee6f944c\output\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-core-ui:25.3.1] C:\Users\Mit R Jain\.android\build-cache\af677b81f11f2db2c6484c6fb82f4f5463acd7f9\output\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-core-utils:25.3.1] C:\Users\Mit R Jain\.android\build-cache\5612968539cfabaea9d3e47c288832287490f45e\output\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-compat:25.3.1] C:\Users\Mit R Jain\.android\build-cache\d3aa6bdf366e6c806e09be25f71182e63781e845\output\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support.constraint:constraint-layout:1.0.2] C:\Users\Mit R Jain\.android\build-cache\ff162159026a403935964250ec00a126718fffa4\output\AndroidManifest.xml:9:5-20
+	android:label
+		ADDED from C:\Users\Mit R Jain\AndroidStudioProjects\MyApplication2\app\src\main\AndroidManifest.xml:8:9-41
+	android:supportsRtl
+		ADDED from C:\Users\Mit R Jain\AndroidStudioProjects\MyApplication2\app\src\main\AndroidManifest.xml:10:9-35
+	android:roundIcon
+		ADDED from C:\Users\Mit R Jain\AndroidStudioProjects\MyApplication2\app\src\main\AndroidManifest.xml:9:9-54
+	android:allowBackup
+		ADDED from C:\Users\Mit R Jain\AndroidStudioProjects\MyApplication2\app\src\main\AndroidManifest.xml:6:9-35
+	android:icon
+		ADDED from C:\Users\Mit R Jain\AndroidStudioProjects\MyApplication2\app\src\main\AndroidManifest.xml:7:9-43
+	android:theme
+		ADDED from C:\Users\Mit R Jain\AndroidStudioProjects\MyApplication2\app\src\main\AndroidManifest.xml:11:9-40
+activity#com.example.mitrjain.myapplication2.MainActivity
+ADDED from C:\Users\Mit R Jain\AndroidStudioProjects\MyApplication2\app\src\main\AndroidManifest.xml:12:9-21:20
+	android:label
+		ADDED from C:\Users\Mit R Jain\AndroidStudioProjects\MyApplication2\app\src\main\AndroidManifest.xml:14:13-45
+	android:theme
+		ADDED from C:\Users\Mit R Jain\AndroidStudioProjects\MyApplication2\app\src\main\AndroidManifest.xml:15:13-56
+	android:name
+		ADDED from C:\Users\Mit R Jain\AndroidStudioProjects\MyApplication2\app\src\main\AndroidManifest.xml:13:13-41
+intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
+ADDED from C:\Users\Mit R Jain\AndroidStudioProjects\MyApplication2\app\src\main\AndroidManifest.xml:16:13-20:29
+action#android.intent.action.MAIN
+ADDED from C:\Users\Mit R Jain\AndroidStudioProjects\MyApplication2\app\src\main\AndroidManifest.xml:17:17-69
+	android:name
+		ADDED from C:\Users\Mit R Jain\AndroidStudioProjects\MyApplication2\app\src\main\AndroidManifest.xml:17:25-66
+category#android.intent.category.LAUNCHER
+ADDED from C:\Users\Mit R Jain\AndroidStudioProjects\MyApplication2\app\src\main\AndroidManifest.xml:19:17-77
+	android:name
+		ADDED from C:\Users\Mit R Jain\AndroidStudioProjects\MyApplication2\app\src\main\AndroidManifest.xml:19:27-74
+uses-sdk
+INJECTED from C:\Users\Mit R Jain\AndroidStudioProjects\MyApplication2\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+MERGED from [com.android.support:design:25.3.1] C:\Users\Mit R Jain\.android\build-cache\39f790e40297b4a3780088b66608b51bc152e718\output\AndroidManifest.xml:21:5-23:62
+MERGED from [com.android.support:appcompat-v7:25.3.1] C:\Users\Mit R Jain\.android\build-cache\8ff93c9d7e7ab8d6141054be04a6d9c6c3cd3f1e\output\AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support:animated-vector-drawable:25.3.1] C:\Users\Mit R Jain\.android\build-cache\c1303af4be443c91575657b13c62ba619ddebee8\output\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:25.3.1] C:\Users\Mit R Jain\.android\build-cache\d0e76b85da5ea01c27f52a57060ff29dc2874fe7\output\AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:recyclerview-v7:25.3.1] C:\Users\Mit R Jain\.android\build-cache\9dd2ca326638cd2ac03106f05e32ca3c4640dbf6\output\AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:transition:25.3.1] C:\Users\Mit R Jain\.android\build-cache\be322ecf0d859eb0e59255ba2e14331fedbb6fbc\output\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:25.3.1] C:\Users\Mit R Jain\.android\build-cache\4bd8bc5c633760234bc9741fccc19a6641db2069\output\AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:support-fragment:25.3.1] C:\Users\Mit R Jain\.android\build-cache\b86c6a6bae13874ff4051a480c8ccf6f3c0d3b6c\output\AndroidManifest.xml:21:5-23:60
+MERGED from [com.android.support:support-media-compat:25.3.1] C:\Users\Mit R Jain\.android\build-cache\1c12d552678db16a2135f8dbbf2025b0ee6f944c\output\AndroidManifest.xml:21:5-23:63
+MERGED from [com.android.support:support-core-ui:25.3.1] C:\Users\Mit R Jain\.android\build-cache\af677b81f11f2db2c6484c6fb82f4f5463acd7f9\output\AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-core-utils:25.3.1] C:\Users\Mit R Jain\.android\build-cache\5612968539cfabaea9d3e47c288832287490f45e\output\AndroidManifest.xml:21:5-23:61
+MERGED from [com.android.support:support-compat:25.3.1] C:\Users\Mit R Jain\.android\build-cache\d3aa6bdf366e6c806e09be25f71182e63781e845\output\AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support.constraint:constraint-layout:1.0.2] C:\Users\Mit R Jain\.android\build-cache\ff162159026a403935964250ec00a126718fffa4\output\AndroidManifest.xml:5:5-7:41
+	tools:overrideLibrary
+		ADDED from [com.android.support:design:25.3.1] C:\Users\Mit R Jain\.android\build-cache\39f790e40297b4a3780088b66608b51bc152e718\output\AndroidManifest.xml:23:9-59
+	android:targetSdkVersion
+		INJECTED from C:\Users\Mit R Jain\AndroidStudioProjects\MyApplication2\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Mit R Jain\AndroidStudioProjects\MyApplication2\app\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from C:\Users\Mit R Jain\AndroidStudioProjects\MyApplication2\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Mit R Jain\AndroidStudioProjects\MyApplication2\app\src\main\AndroidManifest.xml
+meta-data#android.support.VERSION
+ADDED from [com.android.support:design:25.3.1] C:\Users\Mit R Jain\.android\build-cache\39f790e40297b4a3780088b66608b51bc152e718\output\AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:appcompat-v7:25.3.1] C:\Users\Mit R Jain\.android\build-cache\8ff93c9d7e7ab8d6141054be04a6d9c6c3cd3f1e\output\AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:animated-vector-drawable:25.3.1] C:\Users\Mit R Jain\.android\build-cache\c1303af4be443c91575657b13c62ba619ddebee8\output\AndroidManifest.xml:22:5-24:34
+MERGED from [com.android.support:support-vector-drawable:25.3.1] C:\Users\Mit R Jain\.android\build-cache\d0e76b85da5ea01c27f52a57060ff29dc2874fe7\output\AndroidManifest.xml:22:5-24:34
+MERGED from [com.android.support:recyclerview-v7:25.3.1] C:\Users\Mit R Jain\.android\build-cache\9dd2ca326638cd2ac03106f05e32ca3c4640dbf6\output\AndroidManifest.xml:22:5-24:34
+MERGED from [com.android.support:transition:25.3.1] C:\Users\Mit R Jain\.android\build-cache\be322ecf0d859eb0e59255ba2e14331fedbb6fbc\output\AndroidManifest.xml:22:5-24:34
+MERGED from [com.android.support:support-v4:25.3.1] C:\Users\Mit R Jain\.android\build-cache\4bd8bc5c633760234bc9741fccc19a6641db2069\output\AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-fragment:25.3.1] C:\Users\Mit R Jain\.android\build-cache\b86c6a6bae13874ff4051a480c8ccf6f3c0d3b6c\output\AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-media-compat:25.3.1] C:\Users\Mit R Jain\.android\build-cache\1c12d552678db16a2135f8dbbf2025b0ee6f944c\output\AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-core-ui:25.3.1] C:\Users\Mit R Jain\.android\build-cache\af677b81f11f2db2c6484c6fb82f4f5463acd7f9\output\AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-core-utils:25.3.1] C:\Users\Mit R Jain\.android\build-cache\5612968539cfabaea9d3e47c288832287490f45e\output\AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-compat:25.3.1] C:\Users\Mit R Jain\.android\build-cache\d3aa6bdf366e6c806e09be25f71182e63781e845\output\AndroidManifest.xml:25:5-27:34
+	android:value
+		ADDED from [com.android.support:design:25.3.1] C:\Users\Mit R Jain\.android\build-cache\39f790e40297b4a3780088b66608b51bc152e718\output\AndroidManifest.xml:27:9-31
+	android:name
+		ADDED from [com.android.support:design:25.3.1] C:\Users\Mit R Jain\.android\build-cache\39f790e40297b4a3780088b66608b51bc152e718\output\AndroidManifest.xml:26:9-47
