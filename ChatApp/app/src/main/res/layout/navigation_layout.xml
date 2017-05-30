@@ -11,7 +11,7 @@
         android:layout_alignParentRight="true"
         android:background="@drawable/round"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@res:drawable/plus"
+        android:src="@drawable/plus"
         android:backgroundTint="@color/colorPrimary"
         android:elevation="10dp"
         android:clickable="true"
@@ -41,10 +41,9 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.design.widget.NavigationView
-        android:layout_width="200dp"
+    <android.support.v4.widget.DrawerLayout
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        app:headerLayout="@layout/nav_header"
         android:layout_below="@id/action_bar"
         >
 
@@ -52,59 +51,68 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <include layout="@layout/nav_header"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="6"/>
             <ListView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
-                />
+                android:divider="@android:color/transparent"
+                android:dividerHeight="10dp"
+                android:layout_margin="2dp"
+                android:transcriptMode="alwaysScroll"
+                android:id="@+id/messageInterface"
+                android:layout_weight="4"/>
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="5dp">
+
+
+
+                <EditText
+                    android:id="@+id/ed1"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Message to send"
+                    android:layout_margin="5dp"
+                    />
+
+                <Button
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/bt1"
+                    android:elevation="5dp"
+                    android:text="Send"
+                    android:onClick="startSocket"
+                    android:layout_margin="2dp"/>
+            </LinearLayout>
         </LinearLayout>
 
 
+        <android.support.design.widget.NavigationView
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        app:headerLayout="@layout/nav_header"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <!--<include layout="@layout/nav_header"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="6"/>-->
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/ContactsListView"/>
+                <!--android:layout_weight="2"/>-->
+
+        </LinearLayout>
+
     </android.support.design.widget.NavigationView>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_below="@id/action_bar">
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="10dp"
-        android:layout_margin="2dp"
-        android:transcriptMode="alwaysScroll"
-        android:id="@+id/messageInterface"
-        android:layout_weight="4"/>
-    <LinearLayout
 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="5dp">
+    </android.support.v4.widget.DrawerLayout>
 
-
-
-        <EditText
-            android:id="@+id/ed1"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:hint="Enter Message to send"
-            android:layout_margin="5dp"
-            />
-
-        <Button
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:id="@+id/bt1"
-            android:elevation="5dp"
-            android:text="Send"
-            android:onClick="startSocket"
-            android:layout_margin="2dp"/>
-    </LinearLayout>
-    </LinearLayout>
 
 </RelativeLayout>
