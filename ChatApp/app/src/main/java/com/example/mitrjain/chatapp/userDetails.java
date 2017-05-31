@@ -12,6 +12,15 @@ public class userDetails {
         String passwd;
         String email;
         String refreshedToken;
+    userDetails(String name, String contact_no ,String passwd,String email,String refreshedToken ){
+        this.name=name;
+        this.contact_no=contact_no;
+        this.passwd=passwd;
+        this.email=email;
+        this.refreshedToken=refreshedToken;
+
+    }
+
     userDetails(String str)
     {
 

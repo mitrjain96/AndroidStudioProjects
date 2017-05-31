@@ -77,7 +77,7 @@ public class firstTimeRegister extends AppCompatActivity {
          return;
         }
 
-        String token=regisTok.getText().toString();
+
         String name,email,key;
         String test=fullName.getText().toString();
 
@@ -93,7 +93,7 @@ public class firstTimeRegister extends AppCompatActivity {
             Toast.makeText(this, "Contact Number length cannot be more than 10 digits and should contain only digits", Toast.LENGTH_SHORT).show();
             return;
         }
-        token=test;
+        String token=test;
         test=emailid.getText().toString();
         if(!test.matches(".*@.*"))
         {
