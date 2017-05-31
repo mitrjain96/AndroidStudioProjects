@@ -11,12 +11,10 @@ import com.google.firebase.iid.FirebaseInstanceIdService;
 
 public class registrationTokenService extends FirebaseInstanceIdService {
     @Override
-    public void onTokenRefresh()
-    {
-        String refreshedToken= FirebaseInstanceId.getInstance().getToken();
-        Log.d("Networking",refreshedToken);
-        if(!refreshedToken.equals(""))
-            firstTimeRegister.setRefreshedToken(refreshedToken);
+    public void onTokenRefresh() {
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        Log.d("Networking-tokenRefresh", refreshedToken);
+        //TODO Start an ASYNC TASK TO update registration token value in the database( Global and Local).
     }
 
 }

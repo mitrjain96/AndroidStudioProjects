@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
@@ -15,110 +17,124 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.Random;
+
 public class firstTimeRegister extends AppCompatActivity {
+    static String refreshedToken = "";
     Cursor resultSet;
     SQLiteDatabase db;
     Intent i;
-    EditText fullName,regisTok,emailid,passwd,repasswd;
+    EditText fullName, contactNo, emailid, passwd, repasswd;
     Random rn;
-    static String refreshedToken="";
+    ProgressBar progressBar;
+    LinearLayout registrationInterface;
     private DatabaseReference mDatabase;
 
-    static void setRefreshedToken(String value)
-    {
-        refreshedToken=value;
+    static void setRefreshedToken(String value) {
+        refreshedToken = value;
 
     }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mDatabase= FirebaseDatabase.getInstance().getReference("users");
-        db = openOrCreateDatabase("ChatApp",MODE_PRIVATE,null);
-        i = new Intent(getBaseContext(),MainActivity.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        mDatabase = FirebaseDatabase.getInstance().getReference("users");
+        db = openOrCreateDatabase("ChatApp", MODE_PRIVATE, null);
+        i = new Intent(getBaseContext(), MainActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 
-        resultSet=db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name = 'REGIS_TOKEN'",null);
-        if(resultSet.getCount()==0)
-        {
-            Log.d("Networking fRM.java","Fresh Connection");
+
+        resultSet = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name = 'OTHER_USERS'", null);
+        if (resultSet.getCount() == 0) {
+            Log.d("Networking FTR.java", "New User");
             setContentView(R.layout.first_time_register);
-            fullName=(EditText)findViewById(R.id.fullName);
-            regisTok=(EditText)findViewById(R.id.regisToken);
-            emailid=(EditText)findViewById(R.id.emailid);
-            passwd=(EditText)findViewById(R.id.passwd);
-            repasswd=(EditText)findViewById(R.id.repasswd);
+            fullName = (EditText) findViewById(R.id.fullName);
+            contactNo = (EditText) findViewById(R.id.contactNo);
+            emailid = (EditText) findViewById(R.id.emailid);
+            passwd = (EditText) findViewById(R.id.passwd);
+            repasswd = (EditText) findViewById(R.id.repasswd);
+            progressBar = (ProgressBar) findViewById(R.id.registrationProgress);
+            registrationInterface = (LinearLayout) findViewById(R.id.registrationInterface);
 
-        }
-        else
-        {
-//            resultSet=db.rawQuery("Select * from REGIS_TOKEN",null);
-//            resultSet.moveToFirst();
-//            String token=resultSet.getString(0);
-//            Log.d("Networking frm.java","Previous token used - "+token);
-            resultSet=db.rawQuery("SELECT * from USER_DETAILS",null);
+        } else {
+            Log.d("Networking FTR.java", "Existing User");
+            resultSet = db.rawQuery("SELECT * from USER_DETAILS", null);
             resultSet.moveToFirst();
-            String name=resultSet.getString(0);
-            String contact=resultSet.getString(1);
-            String email=resultSet.getString(2);
-            String key=resultSet.getString(3);
-            refreshedToken=FirebaseInstanceId.getInstance().getToken();
-            userDetails user = new userDetails(name,contact,key,email,refreshedToken);
+            String name = resultSet.getString(0);
+            String contact = resultSet.getString(1);
+            String email = resultSet.getString(2);
+            String key = resultSet.getString(3);
+            int progress = 10;
+            progressBar.setVisibility(View.VISIBLE);
+            registrationInterface.setVisibility(View.INVISIBLE);
+            while (refreshedToken.equals("")) {
+                progressBar.setMax(100);
+                progressBar.setProgress(progress);
+                progress = (progress + 30) % 100;
+                refreshedToken = FirebaseInstanceId.getInstance().getToken();
+            }
+            Log.d("Networking FTR.java", "Reg Token=" + refreshedToken);
+            userDetails user = new userDetails(name, contact, key, email, refreshedToken);
             mDatabase.child(contact).setValue(user);
             startActivity(i);
         }
 
     }
-    public void validateForm(View view)
-    {
-        if(fullName.getText().toString().trim().equals("")||regisTok.getText().toString().trim().equals("")||emailid.getText().toString().trim().equals("")||passwd.getText().toString().trim().equals("")||repasswd.getText().toString().trim().equals(""))
-        {
+
+    public void validateForm(View view) {
+        if (fullName.getText().toString().trim().equals("") || contactNo.getText().toString().trim().equals("") || emailid.getText().toString().trim().equals("") || passwd.getText().toString().trim().equals("") || repasswd.getText().toString().trim().equals("")) {
             Toast.makeText(this, "Do not leave any fields blank", Toast.LENGTH_SHORT).show();
-         return;
+            return;
         }
 
 
-        String name,email,key;
-        String test=fullName.getText().toString();
-
-        if(test.matches(".*\\d.*") || test.trim().equals(""))
-        {
+        String name, email, key, contact;
+        name = fullName.getText().toString();
+        name = name.trim();
+        if (name.matches(".*\\d.*") || name.equals("")) {
             Toast.makeText(this, "Name must not contain any digits", Toast.LENGTH_SHORT).show();
             return;
         }
-        name=test;
-        test=regisTok.getText().toString();
-        if(test.length()>10 || !test.matches("[\\d]{10}"))
-        {
+        contact = contactNo.getText().toString();
+        contact = contact.trim();
+        if (contact.length() > 10 || !contact.matches("[\\d]{10}")) {
             Toast.makeText(this, "Contact Number length cannot be more than 10 digits and should contain only digits", Toast.LENGTH_SHORT).show();
             return;
         }
-        String token=test;
-        test=emailid.getText().toString();
-        if(!test.matches(".*@.*"))
-        {
+
+        email = emailid.getText().toString();
+        email = email.trim();
+        if (!email.matches(".*@.*")) {
             Toast.makeText(this, "Enter valid Email-id", Toast.LENGTH_SHORT).show();
             return;
         }
-        email=test;
-        test=passwd.getText().toString();
-        String test1=repasswd.getText().toString();
-        if(!test.equals(test1))
-        {
+        key = passwd.getText().toString();
+        String key1 = repasswd.getText().toString();
+        if (!key.equals(key1)) {
             Toast.makeText(this, "The entered passwords do not match", Toast.LENGTH_SHORT).show();
             return;
         }
-        key=test;
         db.execSQL("CREATE TABLE IF NOT EXISTS USER_DETAILS(Name VARCHAR, Contact VARCHAR, Email_id VARCHAR, Key VARCHAR, deviceToken VARCHAR);");
-        db.execSQL("CREATE TABLE IF NOT EXISTS OTHER_USERS(Contact VARCHAR, deviceToken VARCHAR)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS OTHER_USERS(Name VARCHAR, Contact VARCHAR, deviceToken VARCHAR)");
+
+
+        int progress = 10;
+        registrationInterface.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
+        while (refreshedToken.equals("")) {
+
+            progressBar.setMax(100);
+            progressBar.setProgress(progress);
+            progress = (progress + 30) % 100;
+            refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        }
+        Log.d("Networking FTR.java", "Reg Token=" + refreshedToken);
         try {
-            db.execSQL("INSERT INTO REGIS_TOKEN VALUES('"+token+"');");
-            Log.d("networking frm.java",name.toString()+" "+email.toString()+" "+token.toString());
-            refreshedToken=FirebaseInstanceId.getInstance().getToken();
-            db.execSQL("INSERT INTO USER_DETAILS VALUES('"+name+"','"+token+"','"+email+"','"+key+"','"+refreshedToken+"');");
-        }catch(Exception e){Log.d("Networking frm.java","Unable to enter in local Database");}
-        userDetails user = new userDetails(name,token,key,email,refreshedToken);
-        mDatabase.child(token).setValue(user);
+            db.execSQL("INSERT INTO USER_DETAILS VALUES('" + name + "','" + contact + "','" + email + "','" + key + "','" + refreshedToken + "');");
+        } catch (Exception e) {
+            Log.d("Networking FTR.java", "Unable to enter in local Database");
+        }
+        userDetails user = new userDetails(name, contact, key, email, refreshedToken);
+        mDatabase.child(contact).setValue(user);
         startActivity(i);
     }
 
