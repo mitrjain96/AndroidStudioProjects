@@ -3,24 +3,20 @@ package com.example.mitrjain.chatapp;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.Toolbar;
-import android.view.ContextMenu;
-import android.view.Gravity;
-import android.view.MenuInflater;
-import android.view.View;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -29,9 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.database.sqlite.*;
 
-import com.example.mitrjain.chatapp.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,13 +33,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 
-import org.json.JSONObject;
-import org.w3c.dom.Text;
-
-import java.net.SocketAddress;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     EditText ed;
@@ -160,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
             {
                 contactsListAdapter.add(recName);
                 contactsListAdapter.notifyDataSetChanged();
-                fab.setVisibility(View.GONE);
+               // fab.setVisibility(View.GONE);
                 navDrawer.setVisibility(View.VISIBLE);
 
             }
@@ -168,17 +156,14 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-    static void newMessageReceived(String val)
-    {
-        new updateListView().execute(val);
-    }
-
+    static void newMessageReceived(String val){ new updateListView().execute(val); }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         db = openOrCreateDatabase("ChatApp",MODE_PRIVATE,null);
         userName=getIntent().getStringExtra("User_Name");
+        contact=getIntent().getStringExtra("User_Contact");
         resultSet=db.rawQuery("Select * FROM OTHER_USERS",null);
         setContentView(R.layout.navigation_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -187,11 +172,10 @@ public class MainActivity extends AppCompatActivity {
         ContactListView = (ListView)findViewById(R.id.ContactsListView);
         ed=(EditText)findViewById(R.id.ed1);
         bt=(Button)findViewById(R.id.bt1);
-        fab=(FloatingActionButton)findViewById(R.id.fab);
+        //fab=(FloatingActionButton)findViewById(R.id.fab);
         initialText=(TextView)findViewById(R.id.initialTextView);
-        //currentUser=(TextView)findViewById(R.id.navheaderText);
         currentChatName=(TextView)findViewById(R.id.currentChatName);
-        navDrawer=(DrawerLayout) findViewById(R.id.navDrawer);
+        navDrawer=(DrawerLayout) findViewById(R.id.parentMessageInterface);
         parentMessageInterface=(LinearLayout)findViewById(R.id.parentMessageInterface);
         listAdapter=new ListAdapter(this,R.layout.smessage,messageList);
         contactsListAdapter=new ArrayAdapter<String>(this,R.layout.smessage,contactList);
@@ -200,26 +184,21 @@ public class MainActivity extends AppCompatActivity {
                 this, navDrawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
-//                fab.setVisibility(View.GONE);
             }
 
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-//                fab.setVisibility(View.VISIBLE);
             }
         };
         navDrawer.addDrawerListener(toggle);
-
         toggle.syncState();
         registerForContextMenu(ContactListView);
         ContactListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                String query="";
                 TextView tv = (TextView)v;
                 if(tv.getText().toString()==currentChatUserName) {
                     navDrawer.closeDrawers();
-//                    Toast.makeText(getBaseContext(), "Same niggs", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 currentChatUserName=tv.getText().toString();
@@ -227,11 +206,11 @@ public class MainActivity extends AppCompatActivity {
                 while(resultSet.moveToNext())
                 {
                     contact=resultSet.getString(1);
+                    rec=resultSet.getString(2);
                 }
 
                 currentChatName.setText(currentChatUserName);
                 listAdapter.clear();
-                query="SELECT * FROM Messages"+contact;
                 resultSet=db.rawQuery("SELECT * FROM Messages"+contact+"",null);
                 while(resultSet.moveToNext())
                 {
@@ -243,122 +222,50 @@ public class MainActivity extends AppCompatActivity {
                 db.execSQL("INSERT INTO CurrentChat VALUES('" + currentChatUserName + "','" + contact + "','" +rec + "')");
                 parentMessageInterface.setVisibility(View.VISIBLE);
                 messageInterface.setVisibility(View.VISIBLE);
-                fab.setVisibility(View.GONE);
+                //fab.setVisibility(View.GONE);
                 navDrawer.closeDrawers();
 
 
             }
         });
 
-        if(resultSet.getCount()==0)
-        {
-            navDrawer.setVisibility(View.GONE);
-            parentMessageInterface.setVisibility(View.GONE);
-            fab.setVisibility(View.VISIBLE);
-            initialText.setText("Welcome "+userName+".\nLets get started. Click on the Floating Button below to create a new Chat.");
-            initialText.setVisibility(View.VISIBLE);
-        }
-        else
-        {
-            resultSet=db.rawQuery("SELECT * FROM CurrentChat",null);
-            if(resultSet.getCount()==0)
-            {
-                return;
-            }
-            resultSet=db.rawQuery("SELECT * FROM OTHER_USERS",null);
-            Log.d("Networking resultSet",resultSet.toString());
-            initialText.setVisibility(View.GONE);
-            fab.setVisibility(View.GONE);
-
-            while(resultSet.moveToNext())
-            {
-                contactList.add(resultSet.getString(0));
-            }
-            resultSet=db.rawQuery("SELECT * FROM OTHER_USERS",null);
-            while(resultSet.moveToNext())
-            {
-                currentChatUserName=resultSet.getString(0);
-                contact=resultSet.getString(1);
-                rec=resultSet.getString(2);
-            }
-            currentChatName.setText(currentChatUserName);
-            //currentUser.setText("Hi, "+userName);
-            mDatabase=FirebaseDatabase.getInstance().getReference("Users").child(contact).child("refreshedToken");
-            mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    rec = dataSnapshot.getValue(String.class);
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-            String query="SELECT * FROM Messages"+contact;
-            resultSet=db.rawQuery(query,null);
-            while(resultSet.moveToNext())
-            {
-                messageList.add(resultSet.getString(0));
-            }
-            ContactListView.setAdapter(contactsListAdapter);
-            messageInterface.setAdapter(listAdapter);
-            returnFlag=false;
-
-        }
-
-
-
     }
     public void onStart()
     {
 
         super.onStart();
-        Log.d("Networking","In On Start");
+        Log.d("Networking MainActivity","In On Start");
         if(FirebaseInstanceId.getInstance().getToken()!=null)
             Log.d("Networking Token",FirebaseInstanceId.getInstance().getToken() );
     }
     public void onResume()
     {
-        Log.d("Networking to",currentChatUserName);
+        Log.d("Networking MainActivity","In onResume");
         super.onResume();
         resultSet=db.rawQuery("Select * FROM OTHER_USERS",null);
         if(resultSet.getCount()==0 )
         {
             navDrawer.setVisibility(View.GONE);
             parentMessageInterface.setVisibility(View.GONE);
-            fab.setVisibility(View.VISIBLE);
+            //fab.setVisibility(View.VISIBLE);
             initialText.setText("Welcome "+userName+".\nLets get started. Click on the Floating Button below to create a new Chat.");
             initialText.setVisibility(View.VISIBLE);
             return;
         }
-        if(returnFlag==false)
+        if(!returnFlag)
             return;
         if(currentChatUserName.equals(""))
         {
-
-
-            resultSet=db.rawQuery("Select * FROM OTHER_USERS",null);
             contactList.clear();
             while(resultSet.moveToNext())
             {
-
-                if(!contactList.contains(resultSet.getString(0)))
-                    contactList.add(resultSet.getString(0));
+                contactList.add(resultSet.getString(0));
             }
-            String query="SELECT * FROM Messages"+contact;
-            resultSet=db.rawQuery(query,null);
-//            messageList.clear();
-//            while(resultSet.moveToNext())
-//            {
-//                messageList.add(resultSet.getString(0));
-//            }
             ContactListView.setAdapter(contactsListAdapter);
             messageInterface.setAdapter(listAdapter);
             parentMessageInterface.setVisibility(View.INVISIBLE);
             navDrawer.setVisibility(View.VISIBLE);
-            fab.setVisibility(View.GONE);
+           // fab.setVisibility(View.GONE);
             initialText.setVisibility(View.VISIBLE);
             return;
         }
@@ -371,7 +278,6 @@ public class MainActivity extends AppCompatActivity {
             contact=resultSet.getString(1);
             rec=resultSet.getString(2);
         }
-        //currentUser.setText("Hi, "+userName);
         mDatabase=FirebaseDatabase.getInstance().getReference("Users").child(contact);
         mDatabase.addValueEventListener(new ValueEventListener() {
 
@@ -409,7 +315,7 @@ public class MainActivity extends AppCompatActivity {
         ContactListView.setAdapter(contactsListAdapter);
         messageInterface.setAdapter(listAdapter);
         initialText.setVisibility(View.GONE);
-        fab.setVisibility(View.GONE);
+       // fab.setVisibility(View.GONE);
         navDrawer.setVisibility(View.VISIBLE);
         parentMessageInterface.setVisibility(View.VISIBLE);
         currentChatName.setText(currentChatUserName);
@@ -422,6 +328,12 @@ public class MainActivity extends AppCompatActivity {
         Log.d("networking","In on Stop");
         returnFlag=false;
     }
+    public void onPause()
+    {
+        super.onPause();
+        Log.d("networking"," In on Pause");
+    }
+
     public void onDestroy()
     {
         super.onDestroy();
@@ -432,6 +344,7 @@ public class MainActivity extends AppCompatActivity {
     public void onClickFAB(View view)
     {
         Intent i = new Intent(getBaseContext(), createChat.class);
+        i.putExtra("User_Contact",contact);
         startActivity(i);
 
     }
@@ -475,26 +388,25 @@ public class MainActivity extends AppCompatActivity {
 
         switch(item.getItemId()) {
             case R.id.block:
-                Toast.makeText(this, "This feature will be available in the next version. Stay tuned.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "This feature will be available in the next version.", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.delete:
                 Log.d("Networking:","In delete");
-                parentMessageInterface.setVisibility(View.GONE);
-                listAdapter.clear();
-                db.execSQL("DELETE FROM CurrentChat");
-                resultSet=db.rawQuery("SELECT * FROM OTHER_USERS WHERE Name='"+delname+"'",null);
-                while(resultSet.moveToNext())
-                {
-                    delContact=resultSet.getString(1);
+                resultSet = db.rawQuery("SELECT * FROM OTHER_USERS WHERE Name='" + delname + "'", null);
+                while (resultSet.moveToNext()) {
+                    delContact = resultSet.getString(1);
                 }
-                db.execSQL("DROP TABLE Messages"+delContact+"; ");
-                db.execSQL("DELETE FROM OTHER_USERS WHERE Name='"+delname+"'");
+                db.execSQL("DROP TABLE Messages" + delContact + "; ");
+                db.execSQL("DELETE FROM OTHER_USERS WHERE Name='" + delname + "'");
                 contactsListAdapter.remove(delname);
                 contactsListAdapter.notifyDataSetChanged();
-                listAdapter.clear();
-                listAdapter.notifyDataSetChanged();
-                currentChatUserName="";
-                currentChatName.setText(currentChatUserName);
+                if(delname.equals(currentChatUserName)) {
+                    parentMessageInterface.setVisibility(View.GONE);
+                    db.execSQL("DELETE FROM CurrentChat");
+                    listAdapter.clear();
+                    listAdapter.notifyDataSetChanged();
+                    currentChatUserName = "";
+                }
                 navDrawer.closeDrawers();
                 resultSet=db.rawQuery("SELECT * FROM OTHER_USERS",null);
                 if(resultSet.getCount()==0)
@@ -502,7 +414,7 @@ public class MainActivity extends AppCompatActivity {
                     initialText.setVisibility(View.VISIBLE);
                     navDrawer.setVisibility(View.GONE);
                     parentMessageInterface.setVisibility(View.GONE);
-                    fab.setVisibility(View.VISIBLE);
+                   // fab.setVisibility(View.VISIBLE);
                 }
 
                 return true;
@@ -523,14 +435,12 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.newChat:
                 Intent i = new Intent(getBaseContext(), createChat.class);
+                i.putExtra("User_Contact",contact);
                 startActivity(i);
                 break;
             default:Log.d("Networking","Default");
-
-                // case blocks for other MenuItems (if any)
         }
         return false;
     }
 
 }
-

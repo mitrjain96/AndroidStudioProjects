@@ -3,6 +3,7 @@ package com.example.mitrjain.chatapp;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -37,13 +38,12 @@ public class firstTimeRegister extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mDatabase = FirebaseDatabase.getInstance().getReference("users");
+        mDatabase = FirebaseDatabase.getInstance().getReference("Users");
         db = openOrCreateDatabase("ChatApp", MODE_PRIVATE, null);
         i = new Intent(getBaseContext(), MainActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 
-
-        resultSet = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name = 'OTHER_USERS'", null);
+        resultSet = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name = 'USER_DETAILS'", null);
         if (resultSet.getCount() == 0) {
             Log.d("Networking FTR.java", "New User");
             setContentView(R.layout.first_time_register);
@@ -72,9 +72,12 @@ public class firstTimeRegister extends AppCompatActivity {
                 progress = (progress + 30) % 100;
                 refreshedToken = FirebaseInstanceId.getInstance().getToken();
             }
+
             Log.d("Networking FTR.java", "Reg Token=" + refreshedToken);
             userDetails user = new userDetails(name, contact, key, email, refreshedToken);
             mDatabase.child(contact).setValue(user);
+            i.putExtra("User_Name",name);
+            i.putExtra("User_Contact",contact);
             startActivity(i);
         }
 
@@ -92,12 +95,14 @@ public class firstTimeRegister extends AppCompatActivity {
         name = name.trim();
         if (name.matches(".*\\d.*") || name.equals("")) {
             Toast.makeText(this, "Name must not contain any digits", Toast.LENGTH_SHORT).show();
+            fullName.setBackgroundColor(Color.RED);
             return;
         }
         contact = contactNo.getText().toString();
         contact = contact.trim();
         if (contact.length() > 10 || !contact.matches("[\\d]{10}")) {
             Toast.makeText(this, "Contact Number length cannot be more than 10 digits and should contain only digits", Toast.LENGTH_SHORT).show();
+            contactNo.setBackgroundColor(Color.RED);
             return;
         }
 
@@ -105,13 +110,17 @@ public class firstTimeRegister extends AppCompatActivity {
         email = email.trim();
         if (!email.matches(".*@.*")) {
             Toast.makeText(this, "Enter valid Email-id", Toast.LENGTH_SHORT).show();
+            emailid.setBackgroundColor(Color.RED);
             return;
         }
         key = passwd.getText().toString();
         String key1 = repasswd.getText().toString();
         if (!key.equals(key1)) {
             Toast.makeText(this, "The entered passwords do not match", Toast.LENGTH_SHORT).show();
+            passwd.setBackgroundColor(Color.RED);
+            repasswd.setBackgroundColor(Color.RED);
             return;
+
         }
         db.execSQL("CREATE TABLE IF NOT EXISTS USER_DETAILS(Name VARCHAR, Contact VARCHAR, Email_id VARCHAR, Key VARCHAR, deviceToken VARCHAR);");
         db.execSQL("CREATE TABLE IF NOT EXISTS OTHER_USERS(Name VARCHAR, Contact VARCHAR, deviceToken VARCHAR)");
@@ -120,6 +129,12 @@ public class firstTimeRegister extends AppCompatActivity {
         int progress = 10;
         registrationInterface.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.VISIBLE);
+        fullName.setBackgroundColor(Color.GREEN);
+        contactNo.setBackgroundColor(Color.GREEN);
+        emailid.setBackgroundColor(Color.GREEN);
+        passwd.setBackgroundColor(Color.GREEN);
+        repasswd.setBackgroundColor(Color.GREEN);
+        registrationInterface.setVisibility(View.INVISIBLE);
         while (refreshedToken.equals("")) {
 
             progressBar.setMax(100);
@@ -135,6 +150,8 @@ public class firstTimeRegister extends AppCompatActivity {
         }
         userDetails user = new userDetails(name, contact, key, email, refreshedToken);
         mDatabase.child(contact).setValue(user);
+        i.putExtra("User_Name",name);
+        i.putExtra("User_Contact",contact);
         startActivity(i);
     }
 

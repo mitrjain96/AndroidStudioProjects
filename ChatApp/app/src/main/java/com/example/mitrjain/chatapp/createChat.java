@@ -117,22 +117,17 @@ public class createChat extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_chat);
         editText = (EditText) findViewById(R.id.editText);
-        db =openOrCreateDatabase("ChatApp",MODE_PRIVATE,null);
         progressBar = (ProgressBar)findViewById(R.id.progressBar);
         relativeLayout=(RelativeLayout) findViewById(R.id.mainChatView);
         progressBar.setMax(100);
-        resultSet=db.rawQuery("SELECT * from USER_DETAILS",null);
-        while(resultSet.moveToNext()){
-            userContact=resultSet.getString(1);
-            Log.d("Networking",userContact);
-        }
+        userContact=getIntent().getStringExtra("User_Contact");
     }
 
     public void newChat(View view)
     {
         contact = editText.getText().toString();
         contact=contact.trim();
-        resultSet=db.rawQuery("SELECT * from USER_DETAILS",null);
+        resultSet=db.rawQuery("SELECT * from OTHER_USERS",null);
         while(resultSet.moveToNext())
         {
             if(contact.equals(resultSet.getString(1)))
