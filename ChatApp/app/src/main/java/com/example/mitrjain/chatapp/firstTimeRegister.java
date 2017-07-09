@@ -42,6 +42,7 @@ public class firstTimeRegister extends AppCompatActivity {
         db = openOrCreateDatabase("ChatApp", MODE_PRIVATE, null);
         i = new Intent(getBaseContext(), MainActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        db.execSQL("CREATE TABLE IF NOT EXISTS CurrentChat(Name VARCHAR, Contact VARCHAR, deviceToken VARCHAR)");
 
         resultSet = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name = 'USER_DETAILS'", null);
         if (resultSet.getCount() == 0) {
@@ -55,6 +56,7 @@ public class firstTimeRegister extends AppCompatActivity {
             progressBar = (ProgressBar) findViewById(R.id.registrationProgress);
             registrationInterface = (LinearLayout) findViewById(R.id.registrationInterface);
 
+
         } else {
             Log.d("Networking FTR.java", "Existing User");
             resultSet = db.rawQuery("SELECT * from USER_DETAILS", null);
@@ -63,16 +65,7 @@ public class firstTimeRegister extends AppCompatActivity {
             String contact = resultSet.getString(1);
             String email = resultSet.getString(2);
             String key = resultSet.getString(3);
-            int progress = 10;
-            progressBar.setVisibility(View.VISIBLE);
-            registrationInterface.setVisibility(View.INVISIBLE);
-            while (refreshedToken.equals("")) {
-                progressBar.setMax(100);
-                progressBar.setProgress(progress);
-                progress = (progress + 30) % 100;
-                refreshedToken = FirebaseInstanceId.getInstance().getToken();
-            }
-
+            refreshedToken=resultSet.getString(4);
             Log.d("Networking FTR.java", "Reg Token=" + refreshedToken);
             userDetails user = new userDetails(name, contact, key, email, refreshedToken);
             mDatabase.child(contact).setValue(user);

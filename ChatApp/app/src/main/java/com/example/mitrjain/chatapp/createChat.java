@@ -29,7 +29,7 @@
 
 public class createChat extends AppCompatActivity {
     EditText editText;
-    SQLiteDatabase db;
+    static SQLiteDatabase db;
     Cursor resultSet;
     static String userContact="";
     ProgressBar progressBar;
@@ -116,6 +116,7 @@ public class createChat extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_chat);
+        db = openOrCreateDatabase("ChatApp", MODE_PRIVATE, null);
         editText = (EditText) findViewById(R.id.editText);
         progressBar = (ProgressBar)findViewById(R.id.progressBar);
         relativeLayout=(RelativeLayout) findViewById(R.id.mainChatView);

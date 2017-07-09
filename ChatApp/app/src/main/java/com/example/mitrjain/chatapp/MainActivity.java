@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -41,10 +42,11 @@ public class MainActivity extends AppCompatActivity {
     static FloatingActionButton fab;
     static TextView initialText,currentUser,currentChatName;
     static DrawerLayout navDrawer;
+    static NavigationView navigationView;
     ListView messageInterface, ContactListView;
     LinearLayout parentMessageInterface;
     static String userName="";
-    static String contact="";
+    static String contact="",userContact="";
     static String details="";
     static  String currentChatUserName="";
     public static ListAdapter listAdapter;
@@ -54,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     static private SQLiteDatabase db;
     Cursor resultSet;
     static String rec="";
-    static boolean returnFlag=false;
+    static boolean returnFlag=true;
     private DatabaseReference mDatabase;
     static boolean refreshFlag = true;
     static DatabaseReference mref;
@@ -163,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         db = openOrCreateDatabase("ChatApp",MODE_PRIVATE,null);
         userName=getIntent().getStringExtra("User_Name");
-        contact=getIntent().getStringExtra("User_Contact");
+        userContact=getIntent().getStringExtra("User_Contact");
         resultSet=db.rawQuery("Select * FROM OTHER_USERS",null);
         setContentView(R.layout.navigation_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -176,10 +178,12 @@ public class MainActivity extends AppCompatActivity {
         initialText=(TextView)findViewById(R.id.initialTextView);
         currentChatName=(TextView)findViewById(R.id.currentChatName);
         navDrawer=(DrawerLayout) findViewById(R.id.parentMessageInterface);
-        parentMessageInterface=(LinearLayout)findViewById(R.id.parentMessageInterface);
+        navigationView=(NavigationView) findViewById(R.id.navDrawer);
+        parentMessageInterface=(LinearLayout)findViewById(R.id.headMessageInterface);
         listAdapter=new ListAdapter(this,R.layout.smessage,messageList);
         contactsListAdapter=new ArrayAdapter<String>(this,R.layout.smessage,contactList);
-
+        ContactListView.setAdapter(contactsListAdapter);
+        messageInterface.setAdapter(listAdapter);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, navDrawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
             public void onDrawerClosed(View view) {
@@ -238,6 +242,12 @@ public class MainActivity extends AppCompatActivity {
         if(FirebaseInstanceId.getInstance().getToken()!=null)
             Log.d("Networking Token",FirebaseInstanceId.getInstance().getToken() );
     }
+    public void onRestart()
+    {
+        Log.d("Networking MainActivity","In onRestart");
+        super.onRestart();
+    }
+
     public void onResume()
     {
         Log.d("Networking MainActivity","In onResume");
@@ -252,26 +262,11 @@ public class MainActivity extends AppCompatActivity {
             initialText.setVisibility(View.VISIBLE);
             return;
         }
+
         if(!returnFlag)
             return;
-        if(currentChatUserName.equals(""))
-        {
-            contactList.clear();
-            while(resultSet.moveToNext())
-            {
-                contactList.add(resultSet.getString(0));
-            }
-            ContactListView.setAdapter(contactsListAdapter);
-            messageInterface.setAdapter(listAdapter);
-            parentMessageInterface.setVisibility(View.INVISIBLE);
-            navDrawer.setVisibility(View.VISIBLE);
-           // fab.setVisibility(View.GONE);
-            initialText.setVisibility(View.VISIBLE);
-            return;
-        }
 
         resultSet=db.rawQuery("SELECT * FROM CurrentChat",null);
-        contact="";
         while(resultSet.moveToNext())
         {
             currentChatUserName=resultSet.getString(0);
@@ -301,10 +296,11 @@ public class MainActivity extends AppCompatActivity {
         resultSet=db.rawQuery("Select * FROM OTHER_USERS",null);
         while(resultSet.moveToNext())
         {
-
-            if(!contactList.contains(resultSet.getString(0)))
-                contactList.add(resultSet.getString(0));
+            Log.d("Networking Contact",resultSet.getString(0));
+            contactList.add(resultSet.getString(0));
         }
+        Log.d("Networking Contact",contactList.toString());
+        contactsListAdapter.notifyDataSetChanged();
         String query="SELECT * FROM Messages"+contact;
         resultSet=db.rawQuery(query,null);
         messageList.clear();
@@ -312,8 +308,8 @@ public class MainActivity extends AppCompatActivity {
         {
             messageList.add(resultSet.getString(0));
         }
-        ContactListView.setAdapter(contactsListAdapter);
-        messageInterface.setAdapter(listAdapter);
+
+        listAdapter.notifyDataSetChanged();
         initialText.setVisibility(View.GONE);
        // fab.setVisibility(View.GONE);
         navDrawer.setVisibility(View.VISIBLE);
@@ -332,19 +328,21 @@ public class MainActivity extends AppCompatActivity {
     {
         super.onPause();
         Log.d("networking"," In on Pause");
+        returnFlag=false;
     }
 
     public void onDestroy()
     {
         super.onDestroy();
         Log.d("Networking","In on Destroy");
-        returnFlag =true;
+        returnFlag=true;
+
     }
 
     public void onClickFAB(View view)
     {
         Intent i = new Intent(getBaseContext(), createChat.class);
-        i.putExtra("User_Contact",contact);
+        i.putExtra("User_Contact",userContact);
         startActivity(i);
 
     }
@@ -365,7 +363,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d("Networking device:",rec);
         }
         Log.d("Networking rec",rec);
-        new sendMessage().execute(message,contact,rec,userName);
+        new sendMessage().execute(message,userContact,rec,userName);
         db.execSQL("INSERT INTO Messages"+contact+" VALUES('#SEN"+message+"')");
         ed.setText("");
 

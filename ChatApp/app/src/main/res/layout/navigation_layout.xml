@@ -13,21 +13,6 @@
         android:textSize="20dp"
         android:visibility="gone" />
 
-    <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/fab"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_alignParentEnd="true"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_margin="@dimen/fab_margin"-->
-        <!--android:background="@drawable/round"-->
-        <!--android:backgroundTint="@color/colorPrimary"-->
-        <!--android:clickable="true"-->
-        <!--android:elevation="10dp"-->
-        <!--android:src="@drawable/plus"-->
-        <!--android:visibility="gone" />-->
-
     <android.support.design.widget.AppBarLayout
         android:id="@+id/action_bar"
         android:layout_width="match_parent"
@@ -45,15 +30,16 @@
 
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/parentMessageInterface"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/action_bar">
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            S>
+            android:id="@+id/headMessageInterface"
+            >
 
             <TextView
                 android:id="@+id/currentChatName"
@@ -103,22 +89,15 @@
             android:id="@+id/navDrawer"
             android:layout_width="200dp"
             android:layout_height="match_parent"
-            app:headerLayout="@layout/nav_header">
-
+            app:headerLayout="@layout/nav_header"
+            android:layout_gravity="start">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-                <!--<include layout="@layout/nav_header"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_weight="6"/>-->
-                <ListView
+                android:layout_height="match_parent">
+            <ListView
                     android:id="@+id/ContactsListView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
-                <!--android:layout_weight="2"/>-->
-
             </LinearLayout>
 
         </android.support.design.widget.NavigationView>

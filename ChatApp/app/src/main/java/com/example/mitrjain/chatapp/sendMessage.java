@@ -44,9 +44,9 @@ public class sendMessage extends AsyncTask<String,Void,Long> {
             conn.setDoOutput(true);
 
             JSONObject json = new JSONObject();
-            json.put("to", params[1]);
+            json.put("to", params[2]);
             JSONObject data = new JSONObject();
-            data.put("body",params[0]);
+            data.put("body",params[0]+"-"+params[1]+"-"+params[3]);
             json.put("data",data);
             OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
             wr.write(json.toString());

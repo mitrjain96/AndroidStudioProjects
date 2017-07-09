@@ -6,7 +6,9 @@
     android:id="@+id/registrationInterface" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    >
+    android:layout_alignParentTop="true"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true">
 
     <LinearLayout
         android:id="@+id/WelcomeTextLayout"
@@ -39,53 +41,60 @@
         android:gravity="center_vertical"
         android:orientation="vertical"
         >
-    <EditText
-        android:id="@+id/fullName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#000000"
-        android:hint="Full name"
-        android:padding="10dp"
-        android:textColor="#000000"
-        android:textSize="20dp"/>
-    <EditText
-        android:id="@+id/contactNo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#000000"
-        android:hint="Contact number"
-        android:padding="10dp"
-        android:textSize="20dp"/>
+
+        <EditText
+            android:id="@+id/fullName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#000000"
+            android:hint="Full name"
+            android:padding="10dp"
+            android:text="Mit"
+            android:textColor="#000000"
+            android:textSize="20dp" />
+
+        <EditText
+            android:id="@+id/contactNo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#000000"
+            android:hint="Contact number"
+            android:padding="10dp"
+            android:text="7506108037"
+            android:textSize="20dp" />
 
 
         <EditText
-        android:id="@+id/emailid"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#000000"
-        android:hint="Email id"
-        android:padding="10dp"
-        android:textSize="20dp"/>
+            android:id="@+id/emailid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#000000"
+            android:hint="Email id"
+            android:padding="10dp"
+            android:text="test@t"
+            android:textSize="20dp" />
 
-    <EditText
-        android:id="@+id/passwd"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#000000"
-        android:hint="New Password"
-        android:padding="10dp"
-        android:textSize="20dp"
-        android:inputType="textPassword"/>
+        <EditText
+            android:id="@+id/passwd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#000000"
+            android:hint="New Password"
+            android:inputType="textPassword"
+            android:padding="10dp"
+            android:text="test"
+            android:textSize="20dp" />
 
-    <EditText
-        android:id="@+id/repasswd"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#000000"
-        android:hint="Retype Password"
-        android:padding="10dp"
-        android:textSize="20dp"
-        android:inputType="textPassword"/>
+        <EditText
+            android:id="@+id/repasswd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#000000"
+            android:hint="Retype Password"
+            android:inputType="textPassword"
+            android:padding="10dp"
+            android:text="test"
+            android:textSize="20dp" />
     </LinearLayout>
     </ScrollView>
     <Button

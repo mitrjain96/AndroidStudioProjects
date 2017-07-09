@@ -9,6 +9,7 @@ public class messageReceivingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage)
     {
         String msg="";
+        Log.d("Network here","CALLED");
         Log.d("Networking", "From: " + remoteMessage.getFrom());
         if (remoteMessage.getData().size() > 0) {
             Log.d("Networking", "Message data payload: " + remoteMessage.getData());
