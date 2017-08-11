@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     static DrawerLayout navDrawer;
     static NavigationView navigationView;
     ListView messageInterface, ContactListView;
-    LinearLayout parentMessageInterface;
+    LinearLayout headMessageInterface;
     static String userName="";
     static String contact="",userContact="";
     static String details="";
@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
             //message-contact-name
             splitting = params[0].split("-");
             recContact=splitting[1];
+            recName=splitting[2];
             resultSet=db.rawQuery("SELECT * FROM OTHER_USERS WHERE Contact='"+recContact+"'",null);
             while(resultSet.moveToNext())
             {
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
             if(splitting[2].equalsIgnoreCase(currentChatUserName))
             {
                 db.execSQL("INSERT INTO Messages"+contact+" VALUES('#REC"+splitting[0]+"')");
-                Log.d("Networking ", "Here 1");
+//                Log.d("Networking ", "Here 1");
                 return new Integer(0);
             }
             else if(users.size()==0 || !(users.contains(recContact)))
@@ -179,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
         currentChatName=(TextView)findViewById(R.id.currentChatName);
         navDrawer=(DrawerLayout) findViewById(R.id.parentMessageInterface);
         navigationView=(NavigationView) findViewById(R.id.navDrawer);
-        parentMessageInterface=(LinearLayout)findViewById(R.id.headMessageInterface);
+        headMessageInterface=(LinearLayout)findViewById(R.id.headMessageInterface);
         listAdapter=new ListAdapter(this,R.layout.smessage,messageList);
         contactsListAdapter=new ArrayAdapter<String>(this,R.layout.smessage,contactList);
         ContactListView.setAdapter(contactsListAdapter);
@@ -224,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
                 listAdapter.notifyDataSetChanged();
                 db.execSQL("DELETE FROM CurrentChat");
                 db.execSQL("INSERT INTO CurrentChat VALUES('" + currentChatUserName + "','" + contact + "','" +rec + "')");
-                parentMessageInterface.setVisibility(View.VISIBLE);
+                headMessageInterface.setVisibility(View.VISIBLE);
                 messageInterface.setVisibility(View.VISIBLE);
                 //fab.setVisibility(View.GONE);
                 navDrawer.closeDrawers();
@@ -256,17 +257,23 @@ public class MainActivity extends AppCompatActivity {
         if(resultSet.getCount()==0 )
         {
             navDrawer.setVisibility(View.GONE);
-            parentMessageInterface.setVisibility(View.GONE);
+            //headMessageInterface.setVisibility(View.GONE);
             //fab.setVisibility(View.VISIBLE);
             initialText.setText("Welcome "+userName+".\nLets get started. Click on the Floating Button below to create a new Chat.");
             initialText.setVisibility(View.VISIBLE);
             return;
         }
 
-        if(!returnFlag)
+        if(!returnFlag )
             return;
 
+
         resultSet=db.rawQuery("SELECT * FROM CurrentChat",null);
+
+        if(resultSet.getCount()==0)
+        {
+            headMessageInterface.setVisibility(View.INVISIBLE);
+        }
         while(resultSet.moveToNext())
         {
             currentChatUserName=resultSet.getString(0);
@@ -293,6 +300,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         contactList.clear();
+        contactList.add("Sample");
         resultSet=db.rawQuery("Select * FROM OTHER_USERS",null);
         while(resultSet.moveToNext())
         {
@@ -313,7 +321,7 @@ public class MainActivity extends AppCompatActivity {
         initialText.setVisibility(View.GONE);
        // fab.setVisibility(View.GONE);
         navDrawer.setVisibility(View.VISIBLE);
-        parentMessageInterface.setVisibility(View.VISIBLE);
+        headMessageInterface.setVisibility(View.VISIBLE);
         currentChatName.setText(currentChatUserName);
         returnFlag=false;
 
@@ -399,7 +407,7 @@ public class MainActivity extends AppCompatActivity {
                 contactsListAdapter.remove(delname);
                 contactsListAdapter.notifyDataSetChanged();
                 if(delname.equals(currentChatUserName)) {
-                    parentMessageInterface.setVisibility(View.GONE);
+                    headMessageInterface.setVisibility(View.GONE);
                     db.execSQL("DELETE FROM CurrentChat");
                     listAdapter.clear();
                     listAdapter.notifyDataSetChanged();
@@ -411,7 +419,7 @@ public class MainActivity extends AppCompatActivity {
                 {
                     initialText.setVisibility(View.VISIBLE);
                     navDrawer.setVisibility(View.GONE);
-                    parentMessageInterface.setVisibility(View.GONE);
+                    headMessageInterface.setVisibility(View.GONE);
                    // fab.setVisibility(View.VISIBLE);
                 }
 

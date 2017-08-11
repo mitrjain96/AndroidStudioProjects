@@ -24,7 +24,7 @@ public class userDetails {
     userDetails(String str)
     {
 
-        Log.d("NetworkingUserDetails",str);
+        //Log.d("NetworkingUserDetails",str);
         String details[] = str.split("\\s+");
 
         this.contact_no=details[0];
@@ -32,6 +32,9 @@ public class userDetails {
         this.name=details[2];
         this.passwd=details[3];
         this.refreshedToken=details[4];
+
+
+
     }
 
 
