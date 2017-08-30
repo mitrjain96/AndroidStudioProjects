@@ -1,73 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    android:fillViewport="true"
-    android:scrollbars = "vertical"
-    android:scrollbarStyle="insideInset">
+    android:orientation="vertical">
 
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#212121"
+        android:titleTextColor="#F50057">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:textSize="20dp"
+            android:text="CaptiosX"/>
+    </android.support.v7.widget.Toolbar>
 
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="161dp"
-        android:layout_height="149dp"
-        android:layout_alignEnd="@+id/imageButton4"
-        android:layout_alignRight="@+id/imageButton4"
-        android:layout_alignTop="@+id/imageButton2"
-        app:srcCompat="@mipmap/ic_launcher_round"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="181dp" />
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/navDrawer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <ImageButton
-        android:id="@+id/imageButton2"
-        android:layout_width="161dp"
-        android:layout_height="149dp"
-        android:layout_alignLeft="@+id/imageButton4"
-        android:layout_alignStart="@+id/imageButton4"
-        android:layout_centerVertical="true"
-        app:srcCompat="@mipmap/ic_launcher_round"
-        tools:layout_editor_absoluteX="198dp"
-        tools:layout_editor_absoluteY="181dp" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
 
-    <ImageButton
-        android:id="@+id/imageButton3"
-        android:layout_width="344dp"
-        android:layout_height="152dp"
-        android:layout_below="@+id/imageButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="13dp"
-        app:srcCompat="@mipmap/ic_launcher_round"
-        tools:layout_editor_absoluteX="20dp"
-        tools:layout_editor_absoluteY="343dp" />
+            android:scrollbarStyle="insideInset"
+            android:scrollbars="vertical">
 
-    <ImageButton
-        android:id="@+id/imageButton4"
-        android:layout_width="344dp"
-        android:layout_height="152dp"
-        android:layout_above="@+id/imageButton"
-        android:layout_alignLeft="@+id/imageButton3"
-        android:layout_alignStart="@+id/imageButton3"
-        android:layout_marginBottom="13dp"
-        app:srcCompat="@mipmap/ic_launcher_round"
-        tools:layout_editor_absoluteX="20dp"
-        tools:layout_editor_absoluteY="16dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#424242"
+                android:orientation="vertical">
 
 
-    <ImageButton
-        android:id="@+id/imageButton5"
-        android:layout_width="344dp"
-        android:layout_height="152dp"
-        android:layout_below="@+id/imageButton3"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="13dp"
-        app:srcCompat="@mipmap/ic_launcher_round"
-        tools:layout_editor_absoluteX="20dp"
-        tools:layout_editor_absoluteY="343dp" />
-</RelativeLayout>
-</ScrollView>
+                <ImageButton
+                    android:id="@+id/Img1"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/hall"
+                    android:onClick="navigate" />
+
+                <ImageButton
+                    android:id="@+id/Img2"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/kitchen" />
+
+                <ImageButton
+                    android:id="@+id/Img3"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/bedroom" />
+            </LinearLayout>
+        </ScrollView>
+
+        <android.support.design.widget.NavigationView
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="#212121">
+
+            <ListView
+                android:id="@+id/Profiles"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </android.support.design.widget.NavigationView>
+
+    </android.support.v4.widget.DrawerLayout>
+</LinearLayout>
